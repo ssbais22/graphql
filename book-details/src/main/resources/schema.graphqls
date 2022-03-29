@@ -1,0 +1,17 @@
+type Query {
+    shipmentByName(name: String): Shipment
+}
+
+type Shipment {
+    id: ID
+    name: String
+    weight: Int
+    cost: Int
+}
+
+
+type Author {
+    id: ID
+    firstName: String
+    lastName: String
+}
