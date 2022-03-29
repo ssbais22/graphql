@@ -7,11 +7,11 @@ type Shipment {
     name: String
     weight: Int
     cost: Int
+    vehicle: Vehicle
 }
 
-
-type Author {
+type Vehicle {
     id: ID
-    firstName: String
-    lastName: String
+    name: String
+    weight: String
 }

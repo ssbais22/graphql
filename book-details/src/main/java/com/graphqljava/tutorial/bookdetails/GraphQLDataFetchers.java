@@ -1,7 +1,9 @@
 package com.graphqljava.tutorial.bookdetails;
 
 import com.google.common.collect.ImmutableMap;
+import com.graphqljava.tutorial.bookdetails.entity.Shipment;
 import com.graphqljava.tutorial.bookdetails.services.ShipmentService;
+import com.graphqljava.tutorial.bookdetails.services.VehicleService;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,9 @@ public class GraphQLDataFetchers {
 
     @Autowired
     private ShipmentService shipmentService;
+
+    @Autowired
+    private VehicleService vehicleService;
 
     private static List<Map<String, String>> authors = Arrays.asList(
             ImmutableMap.of("id", "author-1",
@@ -39,15 +44,18 @@ public class GraphQLDataFetchers {
         };
     }
 
-    public DataFetcher getAuthorDataFetcher() {
+    public DataFetcher getVehicleProvider() {
         return dataFetchingEnvironment -> {
-            Map<String, String> book = dataFetchingEnvironment.getSource();
-            String authorId = book.get("authorId");
-            return authors
-                    .stream()
-                    .filter(author -> author.get("id").equals(authorId))
-                    .findFirst()
-                    .orElse(null);
+            Shipment shipment = dataFetchingEnvironment.getSource();
+            Integer vehicleId = shipment.getVehicle() != null ? shipment.getVehicle().getId(): null;
+            if( vehicleId != null) {
+                return vehicleService.findAll()
+                        .stream()
+                        .filter(vehicle -> vehicle.getId() == vehicleId)
+                        .findFirst()
+                        .orElse(null);
+            }
+            return  null;
         };
     }
 }

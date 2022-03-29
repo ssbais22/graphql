@@ -47,7 +47,7 @@ public class GraphQLProvider {
                 .type(newTypeWiring("Query")
                         .dataFetcher("shipmentByName", graphQLDataFetchers.getShipmentByName()))
                 .type(newTypeWiring("Shipment")
-                        .dataFetcher("author", graphQLDataFetchers.getAuthorDataFetcher()))
+                        .dataFetcher("vehicle", graphQLDataFetchers.getVehicleProvider()))
                 .build();
     }
 
